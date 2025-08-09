@@ -135,7 +135,14 @@ if (!formData.paymentMethod) newErrors.paymentMethod = 'Payment method is requir
 
   const isSlotAvailable = (slotValue) => availableSlots.includes(slotValue);
   // const getTotalPrice = () => pricePerReservation;
-  const getTotalPrice = () => formData.guests * pricePerReservation;
+  // const getTotalPrice = () => formData.guests * pricePerReservation;
+  const getTotalPrice = () => {
+  const guests = parseInt(formData.guests) || 0;
+  if (guests > 0) {
+    return guests * pricePerReservation + 500; // fee only when guests are selected
+  }
+  return 0;
+};
 
 
   if (confirmation) {
@@ -260,6 +267,10 @@ if (!formData.paymentMethod) newErrors.paymentMethod = 'Payment method is requir
   <span>Price per Guest:</span>
   <span>Rs: {pricePerReservation}</span>
 </div>
+{/* <div className="pricing-row total">
+  <span>Total for {formData.guests} Guest{formData.guests > 1 ? 's' : ''}:</span>
+  <span>Rs: {getTotalPrice()+500}</span>
+</div> */}
 <div className="pricing-row total">
   <span>Total for {formData.guests} Guest{formData.guests > 1 ? 's' : ''}:</span>
   <span>Rs: {getTotalPrice()}</span>
